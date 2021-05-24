@@ -1,22 +1,31 @@
 pipeline {
-    agent any
+    //agent any
+    agent {docker {image 'maven:3.6.3'}}
 
     stages {
-        stage('Preparation') { // for display purposes
-            steps{
-                checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/anuja2015/jenkins-microservices-pipeline.git']]])
+      //  stage('Preparation') { // for display purposes
+        //    steps{
+          //      checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/anuja2015/jenkins-microservices-pipeline.git']]])
             
-            }
-        }
+            //}
+        //}
         stage('Build') {
             steps{
-                sh 'pwd'
+                sh 'mvn --version'
             }
         }
         stage('Results') {
             steps{
-                echo "pipeline success"
+                echo "docker image used as a jenkins agent"
             }
+        }
+    }
+    post{
+        success{
+            echo "Success"
+        }
+        failue{
+            echo "Failure"
         }
     }
 }
